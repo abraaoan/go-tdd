@@ -17,7 +17,7 @@ func NewPostgresUserRepository(db *sql.DB) repository.UserRepository {
 
 func (u *PostgresUserRepository) CreateUser(email string, password string) (*entity.User, error) {
 	user := &entity.User{}
-	query := `INSERT INTO "User" (email, password) VALUES ($1, $2) RETURNING id, email, password`
+	query := `INSERT INTO account (email, password) VALUES ($1, $2) RETURNING id, email, password`
 	err := u.db.QueryRow(query, email, password).Scan(&user.ID, &user.Email, &user.Password)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (u *PostgresUserRepository) CreateUser(email string, password string) (*ent
 
 func (u *PostgresUserRepository) FindByEmail(email string) (*entity.User, error) {
 	user := &entity.User{}
-	query := `SELECT id, email, password FROM "User" WHERE email = $1`
+	query := `SELECT id, email, password FROM account WHERE email = $1`
 	err := u.db.QueryRow(query, email).Scan(&user.ID, &user.Email, &user.Password)
 	if err != nil {
 		return nil, err
