@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/abraaoan/todo-list/internal/domain/entity"
 	"github.com/abraaoan/todo-list/internal/usecase"
 )
 
@@ -65,4 +66,26 @@ func (h *UserHandler) HandleLogin() {
 
 	fmt.Println("✅ Usuário logado com sucesso: ", token)
 	fmt.Print("\n")
+}
+
+func (h *UserHandler) ListUsers() {
+	users := h.uc.ListUsers()
+	printUsers(users)
+}
+
+func printUsers(users []entity.User) {
+	fmt.Print("\n")
+	for _, t := range users {
+		printUser(&t)
+	}
+
+	fmt.Print("\n\n")
+}
+
+func printUser(u *entity.User) {
+	fmt.Printf("ID:     %d\n", u.ID)
+	fmt.Printf("Email: %s\n", u.Email)
+	fmt.Printf("Name: %s\n", u.Name)
+	fmt.Printf("Role:   %s\n", u.Role)
+	fmt.Println(strings.Repeat("-", 30))
 }

@@ -48,7 +48,6 @@ func (uc *UserUseCase) Login(email, password string) (string, error) {
 	}
 
 	if !isValidUser(password, user) {
-		print("-----> AQUI")
 		return "", entity.ErrSomethingWrong
 	}
 
@@ -58,6 +57,15 @@ func (uc *UserUseCase) Login(email, password string) (string, error) {
 	}
 
 	return token, nil
+}
+
+func (uc *UserUseCase) ListUsers() []entity.User {
+	users, err := uc.repo.ListUsers()
+	if err != nil {
+		return []entity.User{}
+	}
+
+	return users
 }
 
 func isValidUser(password string, user *entity.User) bool {

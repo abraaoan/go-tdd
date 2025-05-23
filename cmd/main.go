@@ -48,13 +48,15 @@ func main() {
 	userHandler := terminal.NewUserHandler(userUseCase, reader)
 	taskHandler := terminal.NewTaskHandler(taskUseCase, reader)
 
+	fmt.Print("\n")
 	for {
 		fmt.Println("O que você quer fazer?")
 		fmt.Println("1. Criar usuário")
-		fmt.Println("2. Login")
-		fmt.Println("3. Criar tarefa")
-		fmt.Println("4. Listar tarefas")
-		fmt.Println("5. Completar tarefas")
+		fmt.Println("2. Listar usuários")
+		fmt.Println("3. Login")
+		fmt.Println("4. Criar tarefa")
+		fmt.Println("5. Listar tarefas")
+		fmt.Println("6. Completar tarefas")
 		fmt.Println("0. Sair")
 		fmt.Print("> ")
 
@@ -65,15 +67,17 @@ func main() {
 		case "1":
 			userHandler.CreateUser()
 		case "2":
-			userHandler.HandleLogin()
+			userHandler.ListUsers()
 		case "3":
-			taskHandler.CreateTask()
+			userHandler.HandleLogin()
 		case "4":
-			taskHandler.ListTask()
+			taskHandler.CreateTask()
 		case "5":
+			taskHandler.ListTask()
+		case "6":
 			taskHandler.CompleteTask()
 		case "0":
-			fmt.Println("Até mais!")
+			fmt.Print("\n 👋 Até mais! \n\n")
 			return
 		default:
 			fmt.Println("Opção inválida.")
