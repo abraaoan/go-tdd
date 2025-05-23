@@ -21,13 +21,21 @@ func (h *UserHandler) CreateUser() {
 	fmt.Print("Email: ")
 	email, _ := h.reader.ReadString('\n')
 
+	fmt.Print("Name: ")
+	name, _ := h.reader.ReadString('\n')
+
 	fmt.Print("Password: ")
 	password, _ := h.reader.ReadString('\n')
 
-	email = strings.TrimSpace(email)
-	password = strings.TrimSpace(password)
+	fmt.Print("Role: ")
+	role, _ := h.reader.ReadString('\n')
 
-	token, err := h.uc.CreateUser(email, password)
+	email = strings.TrimSpace(email)
+	name = strings.TrimSpace(name)
+	password = strings.TrimSpace(password)
+	role = strings.TrimSpace(role)
+
+	token, err := h.uc.CreateUser(email, name, password, role)
 	if err != nil {
 		fmt.Println("❌ Error ao criar o usuário. ", err)
 		fmt.Print("\n")

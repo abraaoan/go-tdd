@@ -18,7 +18,9 @@ func TestLoginSuccessfully(t *testing.T) {
 	mockRepo.EXPECT().FindByEmail("appleSeed@apple.com").Return(&entity.User{
 		ID:       1,
 		Email:    "appleSeed@apple.com",
+		Name:     "Apple",
 		Password: "123456",
+		Role:     "User",
 	}, nil)
 	mockTokenProvider := mocks.NewMockTokenProvider(ctrl)
 	mockTokenProvider.EXPECT().Generate("1").Return("fake-token-generate", nil)
@@ -73,14 +75,19 @@ func TestCreateUser(t *testing.T) {
 
 	mockRepo := mocks.NewMockUserRepository(ctrl)
 	mockRepo.EXPECT().
-		CreateUser("apple@seed.com", "password").
-		Return(&entity.User{ID: 1, Email: "apple@seed.com", Password: "password"}, nil)
+		CreateUser("apple@seed.com", "Apple", "password", "User").
+		Return(&entity.User{
+			ID:       1,
+			Email:    "apple@seed.com",
+			Name:     "Apple",
+			Password: "password",
+			Role:     "User"}, nil)
 
 	mockTokenProvider := mocks.NewMockTokenProvider(ctrl)
 	mockTokenProvider.EXPECT().Generate("1").Return("fake-token-generate", nil)
 
 	uc := usecase.NewUserUseCase(mockRepo, mockTokenProvider)
-	token, err := uc.CreateUser("apple@seed.com", "password")
+	token, err := uc.CreateUser("apple@seed.com", "Apple", "password", "User")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)
